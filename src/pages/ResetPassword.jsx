@@ -1,55 +1,52 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useParams } from "react-router-dom";
 //--------------------------
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import { useRegisterMutation } from "../slices/auth/authApiSlice";
+import { useResetPasswordMutation } from "../slices/auth/authApiSlice";
 import { setCredentials } from "../slices/auth/authSlice";
 //--------------------------
 import Spinner from "react-bootstrap/Spinner";
-import { setTokens } from "../slices/tokenService";
 //--------------------------
-const RegistrationPage = () => {
+const ResetPassword = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
+	const { uid, resetToken } = useParams();
 	const [message, setMessage] = useState("");
-	const [register, { isLoading, isError, isSuccess }] = useRegisterMutation();
-	const { user } = useSelector((state) => state.auth);
+	const [resetPassword, { isLoading, isError, isSuccess }] =
+		useResetPasswordMutation();
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		const data = new FormData(e.currentTarget);
 		const actualData = {
-			name: data.get("name"),
-			email: data.get("email"),
 			password: data.get("password"),
 			password2: data.get("password_confirmation"),
 		};
-		console.log("actualData", actualData);
+		// console.log("actualData", actualData);
 		try {
-			const res = await register(actualData).unwrap();
+			let data = {
+				actualData,
+				uid,
+				resetToken,
+			};
+			const res = await resetPassword(data).unwrap();
 			// console.log("res.user", res.user);
-			setTokens(res.token);
-			dispatch(setCredentials(res.user));
-			navigate("/");
+			// navigate("/");
 		} catch (err) {
 			let errors = err.data.errors;
 			setMessage(errors);
 		}
 
 		if (isSuccess) {
-			console.log("register success!!");
-			document.getElementById("registration-form").reset();
-			navigate("/");
+			console.log("reset success!!");
+			document.getElementById("new-password-form").reset();
+			// navigate("/login");
 		}
 	};
 
-	useEffect(() => {
-		if (user) {
-			navigate("/");
-		}
-	}, [navigate, user]);
+	useEffect(() => {}, [navigate]);
 
 	return (
 		<div className="container">
@@ -60,66 +57,21 @@ const RegistrationPage = () => {
 							<div className="row justify-content-center">
 								<div className="col-md-8 col-lg-6 col-xl-5 order-2 order-lg-1">
 									<p className="text-center h1 fw-bold my-2 mb-4 mx-auto">
-										Sign up
+										Reset new Password
 									</p>
 									<form
 										className="mx-auto p-0 m-0"
-										id="registration-form"
+										id="new-password-form"
 										onSubmit={handleSubmit}
 									>
-										<div className="d-flex flex-row align-items-center mb-2">
-											<i className="fas fa-user fa-lg me-3 fa-fw"></i>
-											<div className="form-outline flex-fill mb-0">
-												<label
-													className="form-label"
-													htmlFor="name"
-												>
-													Your Name
-												</label>
-												<input
-													type="text"
-													id="name"
-													name="name"
-													className="form-control"
-													autoComplete="true"
-												/>
-												<small className="text-danger m-0 p-0">
-													{message && message.name}
-												</small>
-											</div>
-										</div>
-
-										<div className="d-flex flex-row align-items-center mb-2">
-											<i className="fas fa-envelope fa-lg me-3 fa-fw"></i>
-											<div className="form-outline flex-fill mb-0">
-												<label
-													className="form-label"
-													htmlFor="email"
-												>
-													Your Email
-												</label>
-												<input
-													type="email"
-													id="email"
-													name="email"
-													className="form-control"
-													autoComplete="true"
-												/>
-
-												<small className="text-danger m-0 p-0">
-													{message && message.email}
-												</small>
-											</div>
-										</div>
-
 										<div className="d-flex flex-row align-items-center mb-2">
 											<i className="fas fa-lock fa-lg me-3 fa-fw"></i>
 											<div className="form-outline flex-fill mb-0">
 												<label
 													className="form-label"
-													htmlFor="password"
+													htmlFor="new-password"
 												>
-													Password
+													Enter a new Password
 												</label>
 												<input
 													type="password"
@@ -172,22 +124,27 @@ const RegistrationPage = () => {
 													type="submit"
 													className="btn btn-primary btn-lg"
 												>
-													Register
+													Reset
 												</button>
 											)}
 										</div>
 									</form>
-									<div className="text-center my-3">
-										<small className="text-muted">
-											Already have an account.
-											<Link
-												className="text-primary mx-2 text-decoration-underline"
-												to="/login"
-											>
-												Login
-											</Link>
-										</small>
-									</div>
+									{isSuccess && (
+										<div className=" text-center d-flex flex-row align-items-center mt-1">
+											<div className="fw-bold flex-fill my-1 text-center text-info">
+												New password has been set
+												successfully!
+												<br />
+												now you can login using it.
+												<Link
+													className="text-primary mx-2 text-decoration-underline"
+													to="/login"
+												>
+													Login
+												</Link>
+											</div>
+										</div>
+									)}
 								</div>
 							</div>
 						</div>
@@ -197,5 +154,4 @@ const RegistrationPage = () => {
 		</div>
 	);
 };
-
-export default RegistrationPage;
+export default ResetPassword;

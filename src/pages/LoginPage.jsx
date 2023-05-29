@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 //--------------------------
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
@@ -34,7 +34,7 @@ const LoginPage = () => {
 			dispatch(setCredentials(res.user));
 			navigate("/");
 		} catch (err) {
-			console.log("err", err);
+			// console.log("err", err);
 			let errors = err.data.errors;
 			setMessage(errors);
 		}
@@ -134,6 +134,28 @@ const LoginPage = () => {
 											)}
 										</div>
 									</form>
+									<div className="text-center mt-3">
+										<small className="text-muted">
+											Forget Password?
+											<Link
+												className="text-primary mx-2 text-decoration-underline"
+												to="/forgetPassword"
+											>
+												Reset Password
+											</Link>
+										</small>
+									</div>
+									<div className="text-center mb-3">
+										<small className="text-muted">
+											Don't have account, Create one.
+											<Link
+												className="text-primary mx-2 text-decoration-underline"
+												to="/register"
+											>
+												Register
+											</Link>
+										</small>
+									</div>
 								</div>
 							</div>
 						</div>

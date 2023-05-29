@@ -10,6 +10,8 @@ import LoginPage from "./pages/LoginPage";
 import RegistrationPage from "./pages/RegistrationPage";
 import ProfilePage from "./pages/ProfilePage";
 import UpdateTodoForm from "./components/UpdateTodoForm";
+import ForgetPassword from "./pages/ForgetPassword";
+import ResetPassword from "./pages/ResetPassword";
 //---------------------------------------
 function App() {
 	return (
@@ -26,8 +28,14 @@ function App() {
 							path="update-todo/:id/"
 							element={<UpdateTodoForm />}
 						/>
-						{/* <Route path="sendpasswordresetemail" element={<SendPasswordResetEmail />} />
-            <Route path="reset" element={<ResetPassword />} /> */}
+						<Route
+							path="forgetPassword/"
+							element={<ForgetPassword />}
+						/>
+						<Route
+							path="/todo/reset-password/:uid/:resetToken"
+							element={<ResetPassword />}
+						/>
 					</Route>
 					<Route
 						path="*"

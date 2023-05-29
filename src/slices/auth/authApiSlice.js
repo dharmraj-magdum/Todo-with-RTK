@@ -37,6 +37,23 @@ export const authApiSlice = baseApi.injectEndpoints({
 			}),
 			invalidatesTags: ["Auth"],
 		}),
+		sendResetMail: builder.mutation({
+			query: (data) => ({
+				url: "send-password-reset-email/",
+				method: "POST",
+				body: data,
+			}),
+			// invalidatesTags: ["Auth"],
+		}),
+		resetPassword: builder.mutation({
+			query: (data) => ({
+				url:
+					"/reset-password/" + data.uid + "/" + data.resetToken + "/",
+				method: "POST",
+				body: data.actualData,
+			}),
+			// invalidatesTags: ["Auth"],
+		}),
 	}),
 });
 
@@ -45,4 +62,6 @@ export const {
 	useLogoutMutation,
 	useRegisterMutation,
 	useUpdateUserMutation,
+	useSendResetMailMutation,
+	useResetPasswordMutation,
 } = authApiSlice;
