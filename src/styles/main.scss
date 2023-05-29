@@ -1,0 +1,22 @@
+$primary: #567a96;
+$secondary: #6c757d;
+$success: #28a745;
+$info: #17a2b8;
+$warning: #ffc107;
+$danger: #dc3545;
+$light: #f0f3f7;
+$dark: #343a40;
+
+//----------------------------------------------------------------
+//load bootstrap at end so its sass uses our sass vaiables
+// Import Bootstrap and its default variables
+
+// @import "../node_modules/bootstrap/scss/bootstrap.scss";
+//------------------------
+@import "~bootstrap/scss/bootstrap.scss";
+//----------------------------------------------------------------
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
+$font-family-base: "Poppins", sans-serif;
+
+//----------------------------------------------------------------
