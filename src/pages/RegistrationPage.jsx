@@ -34,8 +34,11 @@ const RegistrationPage = () => {
 			dispatch(setCredentials(res.user));
 			navigate("/");
 		} catch (err) {
-			let errors = err.data.errors;
-			setMessage(errors);
+			// console.log("err", err);
+			if (err.data) {
+				let errors = err.data.errors;
+				setMessage(errors);
+			}
 		}
 
 		if (isSuccess) {

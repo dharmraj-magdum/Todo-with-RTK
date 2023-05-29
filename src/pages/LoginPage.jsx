@@ -34,9 +34,11 @@ const LoginPage = () => {
 			dispatch(setCredentials(res.user));
 			navigate("/");
 		} catch (err) {
-			// console.log("err", err);
-			let errors = err.data.errors;
-			setMessage(errors);
+			console.log("err", err);
+			if (err.data) {
+				let errors = err.data.errors;
+				setMessage(errors);
+			}
 		}
 		// console.log(actualData);
 		// dispatch(login(actualData));

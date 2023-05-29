@@ -56,8 +56,11 @@ const ProfilePage = () => {
 			// console.log("res.user", res.user);
 			dispatch(setCredentials(res.user));
 		} catch (err) {
-			let errors = err.data.errors;
-			setMessage(errors);
+			// console.log("err", err);
+			if (err.data) {
+				let errors = err.data.errors;
+				setMessage(errors);
+			}
 		}
 	};
 

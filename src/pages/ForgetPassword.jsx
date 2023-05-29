@@ -32,9 +32,11 @@ const ForgetPassword = () => {
 			const res = await sendResetMail(data).unwrap();
 			// console.log("res.user", res.user);
 		} catch (err) {
-			console.log(err);
-			let errors = err.data.errors;
-			setMessage(errors);
+			// console.log("err", err);
+			if (err.data) {
+				let errors = err.data.errors;
+				setMessage(errors);
+			}
 		}
 		setEmail("");
 	};

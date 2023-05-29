@@ -35,8 +35,11 @@ const ResetPassword = () => {
 			// console.log("res.user", res.user);
 			// navigate("/");
 		} catch (err) {
-			let errors = err.data.errors;
-			setMessage(errors);
+			// console.log("err", err);
+			if (err.data) {
+				let errors = err.data.errors;
+				setMessage(errors);
+			}
 		}
 
 		if (isSuccess) {
