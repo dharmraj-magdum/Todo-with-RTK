@@ -1,6 +1,9 @@
 import { fetchBaseQuery, createApi } from "@reduxjs/toolkit/query/react";
 
-const baseQuery = fetchBaseQuery({ baseUrl: "http://127.0.0.1:8000/todo/" });
+// console.log("===========================", process.env.REACT_APP_SERVER);
+const baseQuery = fetchBaseQuery({
+	baseUrl: process.env.REACT_APP_SERVER + "/todo/",
+});
 
 export const baseApi = createApi({
 	baseQuery,
